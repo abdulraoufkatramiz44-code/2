@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>🚀 CryptoAI Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#020812;--card:#071428;--cyan:#00d4ff;--green:#00ff88;--red:#ff3355;--gold:#ffc93c;--purple:#a855f7;--border:rgba(0,212,255,0.12);--text:#e2f0ff;--muted:rgba(226,240,255,0.45);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Tajawal',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 10% 10%,rgba(0,212,255,0.05),transparent 50%),radial-gradient(ellipse at 90% 90%,rgba(168,85,247,0.05),transparent 50%);pointer-events:none;z-index:0;}
+body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.025) 1px,transparent 1px);background-size:50px 50px;pointer-events:none;z-index:0;}
+.app{position:relative;z-index:1;display:flex;min-height:100vh;}
+.sidebar{width:235px;background:rgba(4,8,18,0.98);border-left:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;bottom:0;right:0;z-index:200;box-shadow:-4px 0 40px rgba(0,0,0,0.7);}
+.logo-area{padding:22px 18px;border-bottom:1px solid var(--border);}
+.logo-badge{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(0,212,255,0.12),rgba(168,85,247,0.12));border:1px solid rgba(0,212,255,0.25);border-radius:10px;padding:7px 12px;margin-bottom:10px;}
+.logo-badge b{font-size:12px;color:var(--cyan);font-weight:900;letter-spacing:1.5px;}
+.logo-title{font-size:17px;font-weight:900;background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block;}
+.logo-sub{font-size:11px;color:var(--muted);margin-top:2px;display:block;}
+.ai-dot-wrap{display:flex;align-items:center;gap:8px;margin-top:10px;padding:6px 10px;background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.18);border-radius:8px;}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:blink 1.4s infinite;}
+@keyframes blink{0%,100%{opacity:1;box-shadow:0 0 5px var(--green)}50%{opacity:0.3}}
+nav{flex:1;padding:10px 0;overflow-y:auto;}
+.nav-group{padding:8px 16px 3px;font-size:10px;color:rgba(0,212,255,0.35);text-transform:uppercase;letter-spacing:2px;font-weight:700;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 18px;cursor:pointer;transition:all 0.18s;color:var(--muted);font-size:13px;border-right:2px solid transparent;}
+.nav-item:hover{color:var(--text);background:rgba(0,212,255,0.05);}
+.nav-item.active{color:var(--cyan);background:rgba(0,212,255,0.09);border-right-color:var(--cyan);font-weight:700;}
+.nav-icon{font-size:16px;width:20px;text-align:center;flex-shrink:0;}
+.live-badge{margin-right:auto;background:var(--red);color:#fff;font-size:9px;padding:2px 6px;border-radius:99px;font-weight:800;animation:blink 1s infinite;}
+.main{margin-right:235px;padding:24px 30px;flex:1;}
+.page{display:none;animation:fu 0.3s ease;}
+.page.active{display:block;}
+@keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+/* TICKER */
+.ticker{overflow:hidden;background:rgba(0,212,255,0.04);border:1px solid var(--border);border-radius:10px;padding:9px 0;margin-bottom:20px;}
+.ticker-inner{display:flex;gap:36px;animation:tick 35s linear infinite;white-space:nowrap;}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.t-item{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;}
+/* PAGE HEADER */
+.ph{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:22px;flex-wrap:wrap;gap:10px;}
+.pt{font-size:24px;font-weight:900;background:linear-gradient(135deg,var(--cyan),#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.ps{font-size:12px;color:var(--muted);margin-top:3px;}
+/* GRIDS */
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:18px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:18px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:18px;}
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:18px;position:relative;overflow:hidden;transition:transform 0.2s;}
+.card:hover{transform:translateY(-2px);}
+.card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,212,255,0.03),transparent);pointer-events:none;}
+.cl{font-size:11px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.8px;font-weight:700;}
+.cv{font-size:24px;font-weight:900;}
+.cc{font-size:12px;margin-top:5px;font-weight:700;}
+.up{color:var(--green);}.dn{color:var(--red);}
+/* SECTION CARD */
+.sc{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:16px;}
+.st{font-size:14px;font-weight:800;color:var(--cyan);margin-bottom:16px;display:flex;align-items:center;gap:7px;}
+/* BADGES */
+.badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:99px;font-size:11px;font-weight:700;}
+.bc{background:rgba(0,212,255,0.15);color:var(--cyan);}
+.bg{background:rgba(0,255,136,0.15);color:var(--green);}
+.br{background:rgba(255,51,85,0.15);color:var(--red);}
+.bo{background:rgba(255,201,60,0.15);color:var(--gold);}
+.bp{background:rgba(168,85,247,0.15);color:var(--purple);}
+/* SIGNALS */
+.sig-b{display:inline-flex;align-items:center;padding:4px 12px;border-radius:8px;font-size:12px;font-weight:800;background:rgba(0,255,136,0.18);border:1px solid rgba(0,255,136,0.35);color:var(--green);}
+.sig-s{display:inline-flex;align-items:center;padding:4px 12px;border-radius:8px;font-size:12px;font-weight:800;background:rgba(255,51,85,0.18);border:1px solid rgba(255,51,85,0.35);color:var(--red);}
+.sig-h{display:inline-flex;align-items:center;padding:4px 12px;border-radius:8px;font-size:12px;font-weight:800;background:rgba(255,201,60,0.15);border:1px solid rgba(255,201,60,0.3);color:var(--gold);}
+/* BUTTONS */
+.btn{padding:9px 20px;border-radius:10px;border:none;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.2s;}
+.btn-c{background:linear-gradient(135deg,var(--cyan),#0099cc);color:#000;}
+.btn-c:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,212,255,0.4);}
+.btn-g{background:linear-gradient(135deg,var(--green),#00cc66);color:#000;}
+.btn-g:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,255,136,0.4);}
+.btn-r{background:rgba(255,51,85,0.18);border:1px solid rgba(255,51,85,0.3);color:var(--red);}
+.btn-o{background:transparent;border:1px solid var(--border);color:var(--muted);}
+.btn-o:hover{border-color:var(--cyan);color:var(--cyan);}
+/* FORM */
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
+.fg label{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
+.fg input,.fg select{background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 13px;color:var(--text);font-family:'Tajawal',sans-serif;font-size:14px;outline:none;transition:border 0.2s;width:100%;}
+.fg input:focus,.fg select:focus{border-color:var(--cyan);}
+.fg select option{background:#071428;}
+.fg2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+/* PBAR */
+.pb-wrap{background:rgba(255,255,255,0.06);border-radius:99px;height:7px;overflow:hidden;}
+.pb{height:100%;border-radius:99px;transition:width 1.2s cubic-bezier(.34,1.56,.64,1);}
+/* NOTIF */
+#notif{position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:9999;padding:10px 26px;border-radius:99px;font-size:14px;font-weight:700;display:none;box-shadow:0 8px 30px rgba(0,0,0,0.6);}
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;}
+.tbl th{text-align:right;font-size:11px;color:var(--muted);padding:0 12px 12px;font-weight:700;border-bottom:1px solid var(--border);text-transform:uppercase;}
+.tbl td{padding:11px 12px;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.04);}
+.tbl tr:hover td{background:rgba(0,212,255,0.03);}
+/* TRADE TABS */
+.trade-tabs{display:flex;border-radius:12px;overflow:hidden;border:1px solid var(--border);margin-bottom:18px;}
+.ttab{flex:1;padding:12px;text-align:center;cursor:pointer;font-weight:800;font-size:14px;transition:all 0.2s;}
+.ttab-b{color:var(--green);}
+.ttab-b.active{background:rgba(0,255,136,0.18);}
+.ttab-s{color:var(--red);}
+.ttab-s.active{background:rgba(255,51,85,0.18);}
+/* AI CARD */
+.ai-card{background:linear-gradient(135deg,rgba(168,85,247,0.08),rgba(0,212,255,0.04));border:1px solid rgba(168,85,247,0.2);border-radius:14px;padding:18px;margin-bottom:12px;}
+.ai-hdr{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.ai-av{width:38px;height:38px;border-radius:9px;background:linear-gradient(135deg,var(--purple),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:18px;}
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-thumb{background:#0a2040;border-radius:4px;}
+@media(max-width:1100px){.g4{grid-template-columns:1fr 1fr;}.g3{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<div id="notif"></div>
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="logo-area">
+    <div class="logo-badge"><span>🚀</span><b>CRYPTOAI PRO</b></div>
+    <span class="logo-title">المنصة الذكية للتداول</span>
+    <span class="logo-sub">تحليل بالذكاء الاصطناعي • 2026</span>
+    <div class="ai-dot-wrap"><div class="dot"></div><span style="font-size:12px;color:var(--green);font-weight:700;">الذكاء الاصطناعي نشط</span></div>
+  </div>
+  <nav>
+    <div class="nav-group">الرئيسية</div>
+    <div class="nav-item active" onclick="go('dashboard')"><span class="nav-icon">🏠</span>لوحة التحكم</div>
+    <div class="nav-item" onclick="go('market')"><span class="nav-icon">📊</span>السوق الحي<span class="live-badge">LIVE</span></div>
+    <div class="nav-group">التداول</div>
+    <div class="nav-item" onclick="go('signals')"><span class="nav-icon">⚡</span>إشارات التداول</div>
+    <div class="nav-item" onclick="go('trade')"><span class="nav-icon">💱</span>منصة التداول</div>
+    <div class="nav-item" onclick="go('portfolio')"><span class="nav-icon">💼</span>محفظتي</div>
+    <div class="nav-group">التحليل</div>
+    <div class="nav-item" onclick="go('ai')"><span class="nav-icon">🤖</span>تحليل الذكاء الاصطناعي</div>
+    <div class="nav-item" onclick="go('technical')"><span class="nav-icon">📈</span>التحليل الفني</div>
+    <div class="nav-item" onclick="go('fundamental')"><span class="nav-icon">🔬</span>التحليل الأساسي</div>
+    <div class="nav-group">الخبراء والتعلم</div>
+    <div class="nav-item" onclick="go('experts')"><span class="nav-icon">👨‍💼</span>توصيات الخبراء</div>
+    <div class="nav-item" onclick="go('strategies')"><span class="nav-icon">🎯</span>استراتيجيات التداول</div>
+    <div class="nav-item" onclick="go('risk')"><span class="nav-icon">🛡️</span>إدارة المخاطر</div>
+    <div class="nav-item" onclick="go('academy')"><span class="nav-icon">🎓</span>أكاديمية التداول</div>
+    <div class="nav-item" onclick="go('news')"><span class="nav-icon">📰</span>أخبار السوق</div>
+  </nav>
+  <div style="padding:14px 16px;border-top:1px solid var(--border);">
+    <div style="font-size:10px;color:rgba(255,200,0,0.5);line-height:1.6;padding:8px 10px;background:rgba(255,200,0,0.04);border:1px solid rgba(255,200,0,0.12);border-radius:8px;">⚠️ للأغراض التعليمية فقط. التداول ينطوي على مخاطر عالية. ليس نصيحة مالية.</div>
+  </div>
+</aside>
+
+<main class="main">
+<!-- TICKER -->
+<div class="ticker"><div class="ticker-inner" id="ticker"></div></div>
+
+<!-- ══ DASHBOARD ══ -->
+<div id="page-dashboard" class="page active">
+  <div class="ph"><div><div class="pt">🏠 لوحة التحكم الذكية</div><div class="ps">نظرة شاملة على السوق والمحفظة</div></div><button class="btn btn-c" onclick="initAll()">🔄 تحديث الكل</button></div>
+  <div class="g4">
+    <div class="card"><div class="cl">💰 قيمة المحفظة</div><div class="cv up" id="d-pf">$24,850</div><div class="cc up">▲ محاكاة</div></div>
+    <div class="card"><div class="cl">₿ Bitcoin الآن</div><div class="cv" id="d-btc">$67,420</div><div class="cc up" id="d-btc-c">▲ +2.3%</div></div>
+    <div class="card"><div class="cl">Ξ Ethereum الآن</div><div class="cv" id="d-eth">$3,890</div><div class="cc up">▲ +1.8%</div></div>
+    <div class="card"><div class="cl">😨 الخوف/الجشع</div><div class="cv" style="color:var(--gold)">72</div><div class="cc" style="color:var(--gold)">جشع قوي 🔥</div></div>
+  </div>
+  <div class="g2">
+    <div class="sc"><div class="st"><span>🚀</span>الأكثر ارتفاعاً اليوم</div><div id="d-gainers"></div></div>
+    <div class="sc"><div class="st"><span>📉</span>الأكثر انخفاضاً اليوم</div><div id="d-losers"></div></div>
+  </div>
+  <div class="sc"><div class="st"><span>⚡</span>إشارات الذكاء الاصطناعي — الأقوى الآن</div><div id="d-signals"></div></div>
+  <div class="sc">
+    <div class="st"><span>🌡️</span>مؤشر الخوف والجشع</div>
+    <div style="text-align:center;padding:10px 0;">
+      <div style="font-size:64px;font-weight:900;color:var(--gold);">72</div>
+      <div style="font-size:16px;font-weight:800;color:var(--gold);margin-bottom:14px;">جشع قوي — قد تكون فرصة جيدة للبيع الجزئي</div>
+      <div style="display:flex;height:14px;border-radius:99px;overflow:hidden;gap:3px;max-width:400px;margin:0 auto;">
+        <div style="flex:1;background:#ff3355;border-radius:3px;"></div>
+        <div style="flex:1;background:#ff6b35;border-radius:3px;"></div>
+        <div style="flex:1;background:#ffc93c;border-radius:3px;"></div>
+        <div style="flex:1;background:#a3e635;border-radius:3px;"></div>
+        <div style="flex:1;background:#00ff88;border-radius:3px;"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;max-width:400px;margin:6px auto 0;font-size:11px;color:var(--muted);"><span>خوف شديد 0</span><span>100 جشع شديد</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MARKET ══ -->
+<div id="page-market" class="page">
+  <div class="ph"><div><div class="pt">📊 السوق الحي</div><div class="ps">أسعار العملات الرقمية لحظة بلحظة</div></div>
+    <input id="search" placeholder="🔍 بحث..." style="background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:10px;padding:9px 14px;color:var(--text);font-family:'Tajawal',sans-serif;font-size:13px;outline:none;width:180px;" oninput="filterCoins()"/>
+  </div>
+  <div class="sc" style="padding:0;overflow:hidden;">
+    <div style="display:grid;grid-template-columns:36px 2fr 1.3fr 1fr 1fr 1.3fr 110px;padding:12px 14px;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;font-weight:700;border-bottom:1px solid var(--border);">
+      <div>#</div><div>العملة</div><div>السعر</div><div>24س%</div><div>7ي%</div><div>الرسملة</div><div>الإشارة</div>
+    </div>
+    <div id="market-body"></div>
+  </div>
+</div>
+
+<!-- ══ SIGNALS ══ -->
+<div id="page-signals" class="page">
+  <div class="ph"><div><div class="pt">⚡ إشارات التداول الذكية</div><div class="ps">إشارات بالذكاء الاصطناعي مع نسبة الدقة</div></div><button class="btn btn-c" onclick="renderSignals()">🤖 تحديث الإشارات</button></div>
+  <div class="g4">
+    <div class="card"><div class="cl">✅ إشارات شراء</div><div class="cv up">8</div><div class="cc up">دقة 87%</div></div>
+    <div class="card"><div class="cl">🔴 إشارات بيع</div><div class="cv dn">5</div><div class="cc dn">دقة 82%</div></div>
+    <div class="card"><div class="cl">🟡 انتظار</div><div class="cv" style="color:var(--gold)">4</div><div class="cc" style="color:var(--gold)">مراقبة</div></div>
+    <div class="card"><div class="cl">🎯 دقة الشهر</div><div class="cv up">84.6%</div><div class="cc up">ممتاز</div></div>
+  </div>
+  <div id="signals-list"></div>
+</div>
+
+<!-- ══ TRADE ══ -->
+<div id="page-trade" class="page">
+  <div class="ph"><div><div class="pt">💱 منصة التداول (محاكاة)</div><div class="ps">تدرب على التداول بدون مخاطر حقيقية</div></div></div>
+  <div class="g2">
+    <div class="sc">
+      <div class="st"><span>💱</span>تنفيذ الصفقة</div>
+      <div class="trade-tabs">
+        <div class="ttab ttab-b active" id="tb-buy" onclick="setTT('buy')">🟢 شراء BUY</div>
+        <div class="ttab ttab-s" id="tb-sell" onclick="setTT('sell')">🔴 بيع SELL</div>
+      </div>
+      <div class="fg"><label>العملة</label><select id="tc"><option value="BTC">Bitcoin BTC</option><option value="ETH">Ethereum ETH</option><option value="SOL">Solana SOL</option><option value="BNB">BNB</option><option value="ADA">Cardano ADA</option><option value="XRP">Ripple XRP</option></select></div>
+      <div class="fg2">
+        <div class="fg"><label>الكمية</label><input type="number" id="ta" placeholder="0.01" step="0.001"/></div>
+        <div class="fg"><label>وقف الخسارة %</label><input type="number" id="tsl" value="5"/></div>
+      </div>
+      <div class="fg2">
+        <div class="fg"><label>جني الأرباح %</label><input type="number" id="ttp" value="15"/></div>
+        <div class="fg"><label>نوع الأمر</label><select id="ttype"><option>أمر سوق</option><option>أمر محدد</option><option>وقف خسارة</option></select></div>
+      </div>
+      <button class="btn btn-g" id="exec-btn" style="width:100%;padding:13px;font-size:15px;margin-top:6px;" onclick="execTrade()">🟢 تنفيذ الشراء</button>
+      <div style="margin-top:10px;padding:10px;background:rgba(0,0,0,0.3);border-radius:10px;font-size:12px;color:var(--muted);">
+        الرصيد المتاح: <b id="bal-display" style="color:var(--green);">$100,000</b>
+      </div>
+    </div>
+    <div class="sc">
+      <div class="st"><span>📋</span>الصفقات المفتوحة</div>
+      <div id="open-pos"></div>
+    </div>
+  </div>
+  <div class="sc"><div class="st"><span>📜</span>سجل الصفقات</div><div id="trade-hist"></div></div>
+</div>
+
+<!-- ══ PORTFOLIO ══ -->
+<div id="page-portfolio" class="page">
+  <div class="ph"><div><div class="pt">💼 محفظتي</div><div class="ps">إدارة وتتبع أصول العملات الرقمية</div></div><button class="btn btn-c" onclick="toggleAddForm()">+ إضافة أصل</button></div>
+  <div class="g4">
+    <div class="card"><div class="cl">💰 إجمالي القيمة</div><div class="cv up" id="pt-total">$0</div><div class="cc">القيمة السوقية</div></div>
+    <div class="card"><div class="cl">📈 أرباح/خسائر</div><div class="cv" id="pt-pnl">$0</div><div class="cc" id="pt-pnl-p">—</div></div>
+    <div class="card"><div class="cl">📦 عدد الأصول</div><div class="cv" id="pt-count">0</div><div class="cc">في المحفظة</div></div>
+    <div class="card"><div class="cl">💹 أفضل أداء</div><div class="cv up" id="pt-best" style="font-size:16px;">—</div><div class="cc up" id="pt-best-p">—</div></div>
+  </div>
+  <div id="add-form" class="sc" style="display:none;">
+    <div class="st"><span>➕</span>إضافة أصل جديد</div>
+    <div class="fg2">
+      <div class="fg"><label>العملة</label><select id="pa-c"><option value="BTC">Bitcoin BTC</option><option value="ETH">Ethereum ETH</option><option value="SOL">Solana SOL</option><option value="BNB">BNB</option><option value="ADA">Cardano ADA</option><option value="XRP">Ripple XRP</option><option value="DOGE">Dogecoin DOGE</option><option value="AVAX">Avalanche AVAX</option></select></div>
+      <div class="fg"><label>الكمية</label><input type="number" id="pa-a" placeholder="0.5"/></div>
+      <div class="fg"><label>سعر الشراء ($)</label><input type="number" id="pa-p" placeholder="67000"/></div>
+      <div class="fg"><label>التاريخ</label><input type="date" id="pa-d"/></div>
+    </div>
+    <div style="display:flex;gap:10px;"><button class="btn btn-c" onclick="addAsset()">💾 إضافة</button><button class="btn btn-o" onclick="toggleAddForm()">إلغاء</button></div>
+  </div>
+  <div class="sc"><div class="st"><span>💼</span>تفاصيل الأصول</div><div id="port-table"></div></div>
+  <div class="g2">
+    <div class="sc"><div class="st"><span>🥧</span>توزيع المحفظة</div><div id="port-dist"></div></div>
+    <div class="sc"><div class="st"><span>💡</span>توصيات التحسين</div><div id="port-tips"></div></div>
+  </div>
+</div>
+
+<!-- ══ AI ══ -->
+<div id="page-ai" class="page">
+  <div class="ph"><div><div class="pt">🤖 تحليل الذكاء الاصطناعي</div><div class="ps">تحليل معمق بخوارزميات متقدمة</div></div>
+    <select id="ai-sel" class="btn btn-o" onchange="renderAI()" style="cursor:pointer;"><option value="BTC">Bitcoin BTC</option><option value="ETH">Ethereum ETH</option><option value="SOL">Solana SOL</option><option value="BNB">BNB</option></select>
+  </div>
+  <div id="ai-content"></div>
+</div>
+
+<!-- ══ TECHNICAL ══ -->
+<div id="page-technical" class="page">
+  <div class="ph"><div><div class="pt">📈 التحليل الفني</div><div class="ps">مؤشرات فنية احترافية</div></div>
+    <select id="tech-sel" class="btn btn-o" onchange="renderTech()" style="cursor:pointer;"><option value="BTC">Bitcoin</option><option value="ETH">Ethereum</option><option value="SOL">Solana</option></select>
+  </div>
+  <div id="tech-content"></div>
+</div>
+
+<!-- ══ FUNDAMENTAL ══ -->
+<div id="page-fundamental" class="page">
+  <div class="ph"><div><div class="pt">🔬 التحليل الأساسي</div><div class="ps">قيمة العملات وأساسياتها</div></div></div>
+  <div id="fund-content"></div>
+</div>
+
+<!-- ══ EXPERTS ══ -->
+<div id="page-experts" class="page">
+  <div class="ph"><div><div class="pt">👨‍💼 توصيات الخبراء</div><div class="ps">آراء كبار المحللين والمستثمرين</div></div></div>
+  <div id="exp-content"></div>
+</div>
+
+<!-- ══ STRATEGIES ══ -->
+<div id="page-strategies" class="page">
+  <div class="ph"><div><div class="pt">🎯 استراتيجيات التداول</div><div class="ps">أقوى الاستراتيجيات المجربة</div></div></div>
+  <div id="strat-content"></div>
+</div>
+
+<!-- ══ RISK ══ -->
+<div id="page-risk" class="page">
+  <div class="ph"><div><div class="pt">🛡️ إدارة المخاطر</div><div class="ps">حماية رأس مالك هي الأولوية</div></div></div>
+  <div id="risk-content"></div>
+</div>
+
+<!-- ══ ACADEMY ══ -->
+<div id="page-academy" class="page">
+  <div class="ph"><div><div class="pt">🎓 أكاديمية التداول</div><div class="ps">تعلم التداول الاحترافي</div></div></div>
+  <div id="acad-content"></div>
+</div>
+
+<!-- ══ NEWS ══ -->
+<div id="page-news" class="page">
+  <div class="ph"><div><div class="pt">📰 أخبار السوق</div><div class="ps">آخر أخبار العملات الرقمية</div></div></div>
+  <div id="news-content"></div>
+</div>
+
+</main>
+</div>
+<script>
+// ── DATA ──
+const COINS=[
+  {s:'BTC',n:'Bitcoin',i:'₿',p:67420,c24:2.3,c7:8.4,mc:'$1.32T',col:'#f7931a',sig:'شراء قوي',stype:'buy'},
+  {s:'ETH',n:'Ethereum',i:'Ξ',p:3890,c24:1.8,c7:5.2,mc:'$467B',col:'#627eea',sig:'شراء',stype:'buy'},
+  {s:'BNB',n:'BNB',i:'B',p:598,c24:-0.8,c7:3.1,mc:'$89B',col:'#f3ba2f',sig:'انتظار',stype:'hold'},
+  {s:'SOL',n:'Solana',i:'◎',p:178,c24:4.2,c7:12.8,mc:'$83B',col:'#9945ff',sig:'شراء قوي',stype:'buy'},
+  {s:'ADA',n:'Cardano',i:'A',p:0.68,c24:-1.2,c7:-3.4,mc:'$24B',col:'#0033ad',sig:'انتظار',stype:'hold'},
+  {s:'XRP',n:'Ripple',i:'X',p:0.73,c24:3.1,c7:9.6,mc:'$40B',col:'#346aa9',sig:'شراء',stype:'buy'},
+  {s:'DOGE',n:'Dogecoin',i:'Ð',p:0.18,c24:-2.4,c7:-8.1,mc:'$26B',col:'#c2a633',sig:'بيع',stype:'sell'},
+  {s:'AVAX',n:'Avalanche',i:'A',p:42,c24:5.6,c7:18.3,mc:'$17B',col:'#e84142',sig:'شراء قوي',stype:'buy'},
+  {s:'DOT',n:'Polkadot',i:'●',p:9.8,c24:-0.5,c7:2.1,mc:'$13B',col:'#e6007a',sig:'انتظار',stype:'hold'},
+  {s:'LINK',n:'Chainlink',i:'⬡',p:18.4,c24:2.9,c7:7.8,mc:'$11B',col:'#2a5ada',sig:'شراء',stype:'buy'},
+  {s:'MATIC',n:'Polygon',i:'M',p:1.12,c24:-1.8,c7:4.2,mc:'$10B',col:'#8247e5',sig:'شراء',stype:'buy'},
+  {s:'LTC',n:'Litecoin',i:'Ł',p:94,c24:-3.1,c7:-5.6,mc:'$7B',col:'#bfbbbb',sig:'بيع',stype:'sell'},
+  {s:'ATOM',n:'Cosmos',i:'⚛',p:11.2,c24:3.8,c7:11.4,mc:'$4B',col:'#2e3148',sig:'شراء',stype:'buy'},
+  {s:'NEAR',n:'NEAR Protocol',i:'N',p:8.9,c24:6.2,c7:22.1,mc:'$9B',col:'#00c08b',sig:'شراء قوي',stype:'buy'},
+  {s:'UNI',n:'Uniswap',i:'🦄',p:12.3,c24:1.4,c7:-2.3,mc:'$7B',col:'#ff007a',sig:'انتظار',stype:'hold'},
+];
+let portfolio=JSON.parse(localStorage.getItem('cp2_p')||'[]');
+let positions=JSON.parse(localStorage.getItem('cp2_pos')||'[]');
+let tradeHist=JSON.parse(localStorage.getItem('cp2_h')||'[]');
+let balance=parseFloat(localStorage.getItem('cp2_b')||'100000');
+let tradeType='buy';
+let filteredCoins=[...COINS];
+const save=()=>{localStorage.setItem('cp2_p',JSON.stringify(portfolio));localStorage.setItem('cp2_pos',JSON.stringify(positions));localStorage.setItem('cp2_h',JSON.stringify(tradeHist));localStorage.setItem('cp2_b',String(balance));};
+const fmt=(n,d=2)=>Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+const usd=n=>'$'+fmt(n);
+const notify=(msg,ok=true)=>{const el=document.getElementById('notif');el.textContent=msg;el.style.background=ok?'rgba(0,220,100,0.95)':'rgba(255,51,85,0.95)';el.style.color=ok?'#000':'#fff';el.style.display='block';setTimeout(()=>el.style.display='none',3000);};
+
+// ── NAV ──
+function go(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>{if((n.getAttribute('onclick')||'').includes("'"+id+"'"))n.classList.add('active');});
+  const map={market:renderMarket,signals:renderSignals,trade:renderTrade,portfolio:renderPortfolio,ai:renderAI,technical:renderTech,fundamental:renderFund,experts:renderExperts,strategies:renderStrats,risk:renderRisk,academy:renderAcad,news:renderNews};
+  if(map[id])map[id]();
+}
+
+// ── TICKER ──
+function buildTicker(){
+  const items=COINS.slice(0,10).map(c=>`<span class="t-item"><span style="color:${c.col};font-weight:900;">${c.s}</span><span style="font-weight:700;">${usd(c.p)}</span><span class="${c.c24>=0?'up':'dn'}" style="font-size:11px;">${c.c24>=0?'▲':'▼'}${Math.abs(c.c24)}%</span></span>`).join('');
+  const t=document.getElementById('ticker');t.innerHTML=items+items;
+}
+
+// ── DASHBOARD ──
+function renderDashboard(){
+  const sorted=[...COINS].sort((a,b)=>b.c24-a.c24);
+  document.getElementById('d-gainers').innerHTML=sorted.slice(0,5).map(c=>`<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+    <span style="font-weight:800;color:${c.col};">${c.s} <span style="font-size:11px;color:var(--muted);font-weight:400;">${c.n}</span></span>
+    <div style="text-align:left;"><div style="font-weight:700;font-size:13px;">${usd(c.p)}</div><div class="up" style="font-size:11px;">▲ ${c.c24}%</div></div>
+  </div>`).join('');
+  document.getElementById('d-losers').innerHTML=[...sorted].reverse().slice(0,5).map(c=>`<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+    <span style="font-weight:800;color:${c.col};">${c.s} <span style="font-size:11px;color:var(--muted);font-weight:400;">${c.n}</span></span>
+    <div style="text-align:left;"><div style="font-weight:700;font-size:13px;">${usd(c.p)}</div><div class="dn" style="font-size:11px;">▼ ${Math.abs(c.c24)}%</div></div>
+  </div>`).join('');
+  document.getElementById('d-signals').innerHTML=`<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
+    ${COINS.filter(c=>c.stype!=='hold').slice(0,8).map(c=>`<div style="background:rgba(0,0,0,0.3);border:1px solid ${c.stype==='buy'?'rgba(0,255,136,0.2)':'rgba(255,51,85,0.2)'};border-radius:11px;padding:12px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="font-weight:900;color:${c.col};">${c.s}</span><span class="${c.stype==='buy'?'sig-b':'sig-s'}" style="font-size:11px;padding:2px 8px;">${c.stype==='buy'?'🟢':'🔴'} ${c.sig}</span></div>
+      <div style="font-size:16px;font-weight:900;">${usd(c.p)}</div><div class="${c.c24>=0?'up':'dn'}" style="font-size:11px;margin-top:3px;">${c.c24>=0?'▲':'▼'}${Math.abs(c.c24)}%</div>
+    </div>`).join('')}
+  </div>`;
+}
+
+// ── MARKET ──
+function renderMarket(){
+  document.getElementById('market-body').innerHTML=filteredCoins.map((c,i)=>`
+    <div style="display:grid;grid-template-columns:36px 2fr 1.3fr 1fr 1fr 1.3fr 110px;padding:11px 14px;border-bottom:1px solid rgba(255,255,255,0.04);transition:background 0.15s;cursor:pointer;" onmouseenter="this.style.background='rgba(0,212,255,0.04)'" onmouseleave="this.style.background='transparent'">
+      <div style="color:var(--muted);font-size:12px;">${i+1}</div>
+      <div style="display:flex;align-items:center;gap:9px;">
+        <div style="width:34px;height:34px;border-radius:50%;background:${c.col}22;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:${c.col};">${c.i}</div>
+        <div><div style="font-weight:800;font-size:13px;">${c.n}</div><div style="font-size:11px;color:var(--muted);">${c.s}/USDT</div></div>
+      </div>
+      <div style="font-weight:800;">${usd(c.p)}</div>
+      <div class="${c.c24>=0?'up':'dn'}" style="font-weight:700;">${c.c24>=0?'▲':'▼'}${Math.abs(c.c24)}%</div>
+      <div class="${c.c7>=0?'up':'dn'}" style="font-weight:700;">${c.c7>=0?'▲':'▼'}${Math.abs(c.c7)}%</div>
+      <div style="font-size:12px;color:var(--muted);">${c.mc}</div>
+      <div><span class="${c.stype==='buy'?'sig-b':c.stype==='sell'?'sig-s':'sig-h'}" style="font-size:11px;">${c.sig}</span></div>
+    </div>`).join('');
+}
+function filterCoins(){const q=document.getElementById('search').value.toLowerCase();filteredCoins=COINS.filter(c=>c.n.toLowerCase().includes(q)||c.s.toLowerCase().includes(q));renderMarket();}
+
+// ── SIGNALS ──
+function renderSignals(){
+  const sigs=[
+    {coin:'BTC',type:'buy',entry:67420,tp:[70000,73000,78000],sl:64000,conf:87,tf:'4H',r:'كسر مستوى مقاومة $66,800 مع حجم تداول مرتفع. RSI يشير إلى زخم شرائي قوي. نمط المثلث الصاعد مكتمل.'},
+    {coin:'SOL',type:'buy',entry:178,tp:[190,205,225],sl:168,conf:91,tf:'1D',r:'قاع مزدوج على الإطار اليومي. الحجم يتضاعف. MACD تقاطع صاعد. السعر فوق المتوسط 200.'},
+    {coin:'AVAX',type:'buy',entry:42,tp:[48,55,65],sl:38,conf:84,tf:'4H',r:'اختراق قناة هبوطية. Stochastic في منطقة تشبع بيعي. دعم قوي عند $40.'},
+    {coin:'NEAR',type:'buy',entry:8.9,tp:[10.5,12,15],sl:7.8,conf:88,tf:'1D',r:'نمو استخدام الشبكة 340%. رسملة منخفضة. شراكات استراتيجية جديدة.'},
+    {coin:'DOGE',type:'sell',entry:0.18,tp:[0.15,0.13],sl:0.20,conf:79,tf:'4H',r:'فشل في اختراق مقاومة $0.19 للمرة الثالثة. RSI في تشبع شرائي.'},
+    {coin:'ETH',type:'buy',entry:3890,tp:[4200,4600,5000],sl:3650,conf:85,tf:'1W',r:'اكتمال الترقية الشبكية. تراكم مؤسسي. EIP-4844 يقلل الرسوم 90%.'},
+    {coin:'XRP',type:'buy',entry:0.73,tp:[0.85,0.95,1.2],sl:0.65,conf:82,tf:'4H',r:'انتهاء قضية SEC إيجابياً. تكامل مع SWIFT. تبني مؤسسي متزايد.'},
+    {coin:'LTC',type:'sell',entry:94,tp:[88,82],sl:99,conf:76,tf:'1D',r:'كسر دعم $96. اتجاه هبوطي. حجم بيعي متزايد.'},
+  ];
+  document.getElementById('signals-list').innerHTML=sigs.map(s=>{
+    const rr=(Math.abs(s.tp[0]-s.entry)/Math.abs(s.entry-s.sl)).toFixed(1);
+    return `<div class="sc" style="border-color:${s.type==='buy'?'rgba(0,255,136,0.2)':'rgba(255,51,85,0.2)'};">
+      <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:46px;height:46px;border-radius:12px;background:${s.type==='buy'?'rgba(0,255,136,0.15)':'rgba(255,51,85,0.15)'};display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:${s.type==='buy'?'var(--green)':'var(--red)'};">${COINS.find(c=>c.s===s.coin)?.i||'?'}</div>
+          <div><div style="font-size:18px;font-weight:900;">${s.coin}/USDT</div><div style="font-size:11px;color:var(--muted);">إطار: ${s.tf}</div></div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+          <span class="${s.type==='buy'?'sig-b':'sig-s'}" style="font-size:14px;padding:6px 16px;">${s.type==='buy'?'🟢 شراء قوي':'🔴 بيع'}</span>
+          <span class="badge bc">دقة ${s.conf}%</span>
+          <span class="badge bo">R/R: ${rr}:1</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px;">
+        <div style="background:rgba(0,0,0,0.3);padding:11px;border-radius:9px;text-align:center;">
+          <div style="font-size:11px;color:var(--muted);margin-bottom:3px;">سعر الدخول</div>
+          <div style="font-weight:900;color:var(--cyan);">${usd(s.entry)}</div>
+        </div>
+        <div style="background:rgba(0,255,136,0.07);padding:11px;border-radius:9px;text-align:center;">
+          <div style="font-size:11px;color:var(--muted);margin-bottom:3px;">أهداف الربح</div>
+          <div style="font-weight:900;color:var(--green);font-size:12px;">${s.tp.map(t=>usd(t)).join(' | ')}</div>
+        </div>
+        <div style="background:rgba(255,51,85,0.07);padding:11px;border-radius:9px;text-align:center;">
+          <div style="font-size:11px;color:var(--muted);margin-bottom:3px;">وقف الخسارة</div>
+          <div style="font-weight:900;color:var(--red);">${usd(s.sl)}</div>
+        </div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:9px;padding:12px;margin-bottom:12px;font-size:13px;color:var(--muted);line-height:1.8;"><b style="color:var(--cyan);">📊 التحليل:</b> ${s.r}</div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:12px;color:var(--muted);">قوة الإشارة:</span>
+        <div class="pb-wrap" style="flex:1;"><div class="pb" style="width:${s.conf}%;background:linear-gradient(90deg,var(--purple),var(--cyan));"></div></div>
+        <span style="font-size:13px;font-weight:800;color:var(--cyan);">${s.conf}%</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── TRADE ──
+function setTT(t){tradeType=t;document.getElementById('tb-buy').classList.toggle('active',t==='buy');document.getElementById('tb-sell').classList.toggle('active',t==='sell');document.getElementById('exec-btn').textContent=t==='buy'?'🟢 تنفيذ الشراء':'🔴 تنفيذ البيع';document.getElementById('exec-btn').className=`btn ${t==='buy'?'btn-g':'btn-r'}`;document.getElementById('exec-btn').style.cssText='width:100%;padding:13px;font-size:15px;margin-top:6px;';}
+function execTrade(){
+  const coin=document.getElementById('tc').value;const amt=parseFloat(document.getElementById('ta').value);const sl=parseFloat(document.getElementById('tsl').value)||5;const tp=parseFloat(document.getElementById('ttp').value)||15;
+  if(!amt||amt<=0){notify('❌ أدخل الكمية',false);return;}
+  const c=COINS.find(x=>x.s===coin);const total=amt*c.p;
+  if(tradeType==='buy'&&total>balance){notify('❌ رصيد غير كافٍ',false);return;}
+  const pos={id:Date.now(),type:tradeType,coin,amt,price:c.p,total,sl:tradeType==='buy'?c.p*(1-sl/100):c.p*(1+sl/100),tp:tradeType==='buy'?c.p*(1+tp/100):c.p*(1-tp/100),date:new Date().toLocaleDateString('ar-SA')};
+  if(tradeType==='buy')balance-=total;else balance+=total;
+  positions.unshift(pos);tradeHist.unshift(pos);save();
+  notify(`✅ تم ${tradeType==='buy'?'شراء':'بيع'} ${amt} ${coin} — ${usd(total)}`);
+  renderTrade();
+}
+function closePos(id){
+  const p=positions.find(x=>x.id===id);if(!p)return;
+  const c=COINS.find(x=>x.s===p.coin);
+  const pnl=p.type==='buy'?(c.p-p.price)*p.amt:(p.price-c.p)*p.amt;
+  if(p.type==='buy')balance+=p.amt*c.p;else balance-=p.amt*c.p;
+  positions=positions.filter(x=>x.id!==id);save();
+  notify(`${pnl>=0?'✅ ربح':'❌ خسارة'}: ${pnl>=0?'+':''}${usd(Math.abs(pnl))}`);
+  renderTrade();
+}
+function renderTrade(){
+  document.getElementById('bal-display').textContent=usd(balance);
+  const op=document.getElementById('open-pos');
+  op.innerHTML=!positions.length?'<div style="color:var(--muted);text-align:center;padding:24px;font-size:13px;">لا توجد صفقات مفتوحة</div>':positions.map(p=>{
+    const c=COINS.find(x=>x.s===p.coin);const pnl=p.type==='buy'?(c.p-p.price)*p.amt:(p.price-c.p)*p.amt;
+    return `<div style="background:rgba(0,0,0,0.3);border:1px solid ${pnl>=0?'rgba(0,255,136,0.15)':'rgba(255,51,85,0.15)'};border-radius:11px;padding:13px;margin-bottom:8px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:7px;"><span style="font-weight:900;">${p.coin}/USDT</span><span class="${p.type==='buy'?'up':'dn'}" style="font-weight:800;">${p.type==='buy'?'🟢 شراء':'🔴 بيع'}</span></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;font-size:12px;color:var(--muted);margin-bottom:10px;">
+        <span>الكمية: <b style="color:var(--text);">${p.amt}</b></span><span>الدخول: <b style="color:var(--text);">${usd(p.price)}</b></span>
+        <span>الحالي: <b style="color:var(--text);">${usd(c.p)}</b></span><span class="${pnl>=0?'up':'dn'}">P&L: <b>${pnl>=0?'+':''}${usd(pnl)}</b></span>
+      </div>
+      <button class="btn btn-o" style="width:100%;padding:7px;font-size:12px;" onclick="closePos(${p.id})">إغلاق الصفقة</button>
+    </div>`;
+  }).join('');
+  const th=document.getElementById('trade-hist');
+  th.innerHTML=!tradeHist.length?'<div style="color:var(--muted);text-align:center;padding:20px;">لا يوجد سجل</div>':`
+    <table class="tbl"><tr><th>العملة</th><th>النوع</th><th>الكمية</th><th>السعر</th><th>التاريخ</th></tr>
+    ${tradeHist.slice(0,10).map(t=>`<tr><td style="font-weight:800;">${t.coin}</td><td class="${t.type==='buy'?'up':'dn'}">${t.type==='buy'?'🟢 شراء':'🔴 بيع'}</td><td>${t.amt}</td><td>${usd(t.price)}</td><td style="color:var(--muted);">${t.date}</td></tr>`).join('')}
+    </table>`;
+}
+
+// ── PORTFOLIO ──
+function toggleAddForm(){const f=document.getElementById('add-form');f.style.display=f.style.display==='none'?'block':'none';document.getElementById('pa-d').value=new Date().toISOString().slice(0,10);}
+function addAsset(){
+  const coin=document.getElementById('pa-c').value;const amt=parseFloat(document.getElementById('pa-a').value);const price=parseFloat(document.getElementById('pa-p').value);
+  if(!amt||!price){notify('❌ أدخل الكمية والسعر',false);return;}
+  portfolio.push({id:Date.now(),coin,amt,buy:price,date:document.getElementById('pa-d').value});
+  save();renderPortfolio();notify('✅ تمت الإضافة!');document.getElementById('add-form').style.display='none';
+}
+function removeAsset(id){portfolio=portfolio.filter(p=>p.id!==id);save();renderPortfolio();}
+function renderPortfolio(){
+  const total=portfolio.reduce((s,p)=>{const c=COINS.find(x=>x.s===p.coin);return s+(c?c.p*p.amt:0);},0);
+  const inv=portfolio.reduce((s,p)=>s+p.buy*p.amt,0);const pnl=total-inv;const pp=inv>0?(pnl/inv*100).toFixed(2):0;
+  document.getElementById('pt-total').textContent=usd(total);
+  document.getElementById('pt-pnl').textContent=(pnl>=0?'+':'')+usd(pnl);
+  document.getElementById('pt-pnl').className=`cv ${pnl>=0?'up':'dn'}`;
+  document.getElementById('pt-pnl-p').innerHTML=`<span class="${pnl>=0?'up':'dn'}">${pnl>=0?'▲':'▼'} ${Math.abs(pp)}%</span>`;
+  document.getElementById('pt-count').textContent=portfolio.length;
+  if(portfolio.length){const best=portfolio.reduce((a,b)=>{const ca=COINS.find(x=>x.s===a.coin);const cb=COINS.find(x=>x.s===b.coin);return ((cb?.p-b.buy)/b.buy)>((ca?.p-a.buy)/a.buy)?b:a;});const bp=((COINS.find(x=>x.s===best.coin)?.p-best.buy)/best.buy*100).toFixed(2);document.getElementById('pt-best').textContent=best.coin;document.getElementById('pt-best-p').innerHTML=`<span class="${bp>=0?'up':'dn'}">${bp>=0?'+':''}${bp}%</span>`;}
+  const pt=document.getElementById('port-table');
+  pt.innerHTML=!portfolio.length?'<div style="color:var(--muted);text-align:center;padding:24px;">لا توجد أصول</div>':`
+    <table class="tbl"><tr><th>العملة</th><th>الكمية</th><th>سعر الشراء</th><th>الحالي</th><th>القيمة</th><th>الربح/الخسارة</th><th>%</th><th>حذف</th></tr>
+    ${portfolio.map(p=>{const c=COINS.find(x=>x.s===p.coin)||{p:p.buy,col:'#888'};const val=c.p*p.amt;const pn=(c.p-p.buy)*p.amt;const pc=((c.p-p.buy)/p.buy*100).toFixed(2);
+      return `<tr><td style="font-weight:900;color:${c.col};">${p.coin}</td><td>${p.amt}</td><td>${usd(p.buy)}</td><td style="font-weight:700;">${usd(c.p)}</td><td style="font-weight:800;">${usd(val)}</td><td class="${pn>=0?'up':'dn'}">${pn>=0?'+':''}${usd(pn)}</td><td class="${pc>=0?'up':'dn'}">${pc>=0?'+':''}${pc}%</td><td><button class="btn btn-r" style="padding:4px 9px;font-size:11px;" onclick="removeAsset(${p.id})">حذف</button></td></tr>`;
+    }).join('')}</table>`;
+  const dist=document.getElementById('port-dist');
+  if(!portfolio.length){dist.innerHTML='<div style="color:var(--muted);text-align:center;padding:20px;">لا بيانات</div>';document.getElementById('port-tips').innerHTML='';return;}
+  const cmap={};portfolio.forEach(p=>{const c=COINS.find(x=>x.s===p.coin);if(c)cmap[p.coin]={col:c.col,val:c.p*p.amt};});
+  dist.innerHTML=Object.entries(cmap).map(([s,d])=>{const pct=total>0?(d.val/total*100).toFixed(1):0;return `<div style="margin-bottom:11px;"><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:13px;"><span>${s}</span><span style="color:${d.col}">${pct}% — ${usd(d.val)}</span></div><div class="pb-wrap"><div class="pb" style="width:${pct}%;background:${d.col};"></div></div></div>`;}).join('');
+  document.getElementById('port-tips').innerHTML=`<div style="display:flex;flex-direction:column;gap:10px;">
+    ${pnl<0?`<div style="background:rgba(255,51,85,0.08);border:1px solid rgba(255,51,85,0.2);border-radius:10px;padding:12px;font-size:13px;"><b style="color:var(--red);">⚠️ تنبيه:</b> محفظتك في خسارة. فكر في وقف خسارة.</div>`:''}
+    <div style="background:rgba(0,212,255,0.06);border-radius:10px;padding:12px;font-size:13px;color:var(--muted);line-height:1.7;">💡 <b style="color:var(--cyan);">التنويع:</b> يُنصح بألا تتجاوز أي عملة 30% من المحفظة.</div>
+    <div style="background:rgba(0,255,136,0.06);border-radius:10px;padding:12px;font-size:13px;color:var(--muted);line-height:1.7;">💡 <b style="color:var(--green);">الاستراتيجية المثلى:</b> 60% BTC/ETH + 30% عملات واعدة + 10% مخاطرة عالية.</div>
+    <div style="background:rgba(255,201,60,0.06);border-radius:10px;padding:12px;font-size:13px;color:var(--muted);line-height:1.7;">💡 <b style="color:var(--gold);">جني الأرباح:</b> عند 25-30% ربح، حقق جزءاً منه.</div>
+  </div>`;
+}
+
+// ── AI ──
+function renderAI(){
+  const coin=document.getElementById('ai-sel').value;const c=COINS.find(x=>x.s===coin)||COINS[0];
+  const analyses=[
+    {nm:'GPT-4 Analyst',tl:'محلل الذكاء الاصطناعي الرئيسي',conf:89,txt:`يظهر ${c.s} نمطاً تراكمياً واضحاً من المستثمرين المؤسسيين. التحليل الإحصائي يشير لاحتمال 78% لارتفاع خلال 30 يوماً. الهدف الأول ${usd(c.p*1.15)} والثاني ${usd(c.p*1.30)}.`},
+    {nm:'DeepMind Crypto',tl:'نموذج التعلم العميق',conf:84,txt:`نموذج LSTM يشير إلى اتجاه صاعد متوسط المدى. تحليل المشاعر من التواصل الاجتماعي: 71% إيجابي. حجم التداول فوق المتوسط 90 يوم بنسبة 145%.`},
+    {nm:'Quant AI',tl:'نموذج التحليل الكمي',conf:81,txt:`القيمة العادلة المقدرة ${usd(c.p*0.95)}. توصية: الدخول التدريجي عند مستويات التصحيح. لا تخصص أكثر من 5% من رأس المال.`},
+  ];
+  document.getElementById('ai-content').innerHTML=`
+    <div class="g3" style="margin-bottom:16px;">
+      <div class="card"><div class="cl">🎯 توصية الذكاء الاصطناعي</div><div class="cv up">${c.sig}</div><div class="cc">إجماع الخوارزميات</div></div>
+      <div class="card"><div class="cl">📊 هدف 30 يوم</div><div class="cv up">${usd(c.p*1.22)}</div><div class="cc up">▲ +22% متوقع</div></div>
+      <div class="card"><div class="cl">🛡️ وقف الخسارة المقترح</div><div class="cv dn">${usd(c.p*0.92)}</div><div class="cc dn">▼ -8%</div></div>
+    </div>
+    ${analyses.map(a=>`<div class="ai-card">
+      <div class="ai-hdr">
+        <div class="ai-av">🤖</div>
+        <div><div style="font-weight:800;color:var(--purple);">${a.nm}</div><div style="font-size:11px;color:var(--muted);">${a.tl}</div></div>
+        <span class="badge bc" style="margin-right:auto;">دقة ${a.conf}%</span>
+      </div>
+      <p style="font-size:14px;color:var(--text);line-height:1.8;margin-bottom:12px;">${a.txt}</p>
+      <div style="display:flex;align-items:center;gap:10px;"><span style="font-size:12px;color:var(--muted);">مستوى الثقة:</span><div class="pb-wrap" style="flex:1;"><div class="pb" style="width:${a.conf}%;background:linear-gradient(90deg,var(--purple),var(--cyan));"></div></div><span style="font-size:13px;font-weight:800;color:var(--cyan);">${a.conf}%</span></div>
+    </div>`).join('')}
+    <div class="sc">
+      <div class="st"><span>📊</span>مؤشرات على السلسلة (On-Chain) — ${coin}</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
+        ${[{n:'عناوين نشطة',v:'1.2M',c:'up',ch:'+12%'},{n:'رصيد البورصات',v:'↓ 2.1M',c:'up',ch:'تراكم'},{n:'الحيازة +1 سنة',v:'68%',c:'up',ch:'أعلى تاريخي'},{n:'حجم التحويلات',v:'$28B',c:'up',ch:'+34% أسبوعي'}].map(i=>`
+          <div style="background:rgba(0,0,0,0.3);border-radius:11px;padding:13px;text-align:center;">
+            <div style="font-size:11px;color:var(--muted);margin-bottom:5px;">${i.n}</div>
+            <div style="font-size:15px;font-weight:900;color:var(--cyan);">${i.v}</div>
+            <div class="${i.c}" style="font-size:12px;margin-top:3px;">${i.ch}</div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+// ── TECHNICAL ──
+function renderTech(){
+  const coin=document.getElementById('tech-sel').value;const c=COINS.find(x=>x.s===coin)||COINS[0];
+  const inds=[
+    {n:'RSI (14)',v:'62.4',s:'محايد إيجابي',t:'up'},{n:'MACD',v:'تقاطع صاعد',s:'شراء',t:'up'},
+    {n:'Bollinger Bands',v:'فوق الوسطى',s:'اتجاه صاعد',t:'up'},{n:'MA 50',v:usd(c.p*0.95),s:'السعر فوقه ✅',t:'up'},
+    {n:'MA 200',v:usd(c.p*0.88),s:'السعر فوقه ✅',t:'up'},{n:'Stochastic RSI',v:'75/80',s:'قرب التشبع الشرائي',t:''},
+    {n:'حجم التداول',v:'فوق المتوسط',s:'إيجابي',t:'up'},{n:'ATR التقلب',v:usd(c.p*0.03),s:'طبيعي',t:''},
+    {n:'نمط الشموع',v:'مطرقة صاعدة',s:'إشارة شراء',t:'up'},{n:'Ichimoku Cloud',v:'فوق السحابة',s:'صاعد قوي',t:'up'},
+    {n:'Fibonacci 0.618',v:usd(c.p*0.93),s:'دعم مهم',t:'up'},{n:'مستوى المقاومة',v:usd(c.p*1.08),s:'مقاومة أمامية',t:'dn'},
+  ];
+  const buys=inds.filter(i=>i.t==='up').length;
+  document.getElementById('tech-content').innerHTML=`
+    <div class="g3" style="margin-bottom:16px;">
+      <div class="card"><div class="cl">✅ شراء</div><div class="cv up">${buys} مؤشر</div><div class="cc up">إشارات شراء</div></div>
+      <div class="card"><div class="cl">🔴 بيع</div><div class="cv dn">1 مؤشر</div><div class="cc dn">إشارات بيع</div></div>
+      <div class="card"><div class="cl">🟡 محايد</div><div class="cv" style="color:var(--gold)">2 مؤشرات</div><div class="cc" style="color:var(--gold)">انتظار</div></div>
+    </div>
+    <div class="sc">
+      <div class="st"><span>📊</span>المؤشرات الفنية التفصيلية — ${coin}</div>
+      ${inds.map(i=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+        <span style="font-size:13px;color:var(--muted);">${i.n}</span>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <span class="${i.t}" style="font-size:13px;font-weight:800;">${i.v}</span>
+          <span class="badge ${i.t==='up'?'bg':i.t==='dn'?'br':'bc'}">${i.s}</span>
+        </div>
+      </div>`).join('')}
+    </div>
+    <div class="g2">
+      <div class="sc"><div class="st"><span>📐</span>مستويات فيبوناتشي — ${coin}</div>
+        ${[{l:'0.236',v:c.p*1.05,t:'مقاومة ضعيفة'},{l:'0.382',v:c.p*1.12,t:'مقاومة متوسطة'},{l:'0.500',v:c.p*1.18,t:'هدف رئيسي'},{l:'0.618',v:c.p*1.25,t:'هدف قوي'},{l:'0.786',v:c.p*1.38,t:'مقاومة قوية'},{l:'1.000',v:c.p*1.5,t:'هدف الموجة'}].map(x=>`
+          <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+            <span style="color:var(--muted);font-size:12px;">Fib ${x.l}</span>
+            <span style="font-weight:800;color:var(--gold);">${usd(x.v)}</span>
+            <span class="badge bc" style="font-size:10px;">${x.t}</span>
+          </div>`).join('')}
+      </div>
+      <div class="sc"><div class="st"><span>🕯️</span>تفسير الشموع اليابانية</div>
+        ${[{p:'🔨 Hammer مطرقة',d:'انعكاس صاعد — تظهر في نهاية الهبوط'},{p:'📊 Bullish Engulfing',d:'ابتلاع صاعد — قوة شرائية كبيرة'},{p:'⚡ Morning Star',d:'نجمة الصباح — انعكاس قوي للأسفل'},{p:'🎯 Three White Soldiers',d:'ثلاثة جنود بيض — صعود قوي مؤكد'},{p:'🌀 Doji',d:'تردد في السوق — انتظر تأكيداً'}].map(x=>`
+          <div style="padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+            <b style="color:var(--cyan);font-size:12px;">${x.p}</b>
+            <p style="font-size:12px;color:var(--muted);margin-top:3px;">${x.d}</p>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+// ── FUNDAMENTAL ──
+function renderFund(){
+  document.getElementById('fund-content').innerHTML=`
+    <div class="sc"><div class="st"><span>🔬</span>التحليل الأساسي — Bitcoin BTC</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;">
+        ${[{t:'الرسملة السوقية',v:'$1.32 تريليون'},{t:'حجم 24 ساعة',v:'$48.2 مليار'},{t:'نسبة الهيمنة',v:'52.4%'},{t:'العرض المتداول',v:'19.6M BTC'},{t:'الحد الأقصى',v:'21M BTC'},{t:'المُعدَّن منه',v:'93.4%'}].map(x=>`
+          <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:13px;">
+            <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">${x.t}</div>
+            <div style="font-weight:900;font-size:16px;color:var(--cyan);">${x.v}</div>
+          </div>`).join('')}
+      </div>
+    </div>
+    <div class="g2">
+      <div class="sc"><div class="st"><span>✅</span>المحفزات الإيجابية 2026</div>
+        ${[{t:'صناديق ETF البيتكوين',d:'تدفق $38 مليار في 2025 — ضخ مؤسسي ضخم'},
+           {t:'حدث التنصيف Halving',d:'انخفض العرض 50% — تاريخياً يسبق ارتفاعاً كبيراً'},
+           {t:'تبني المؤسسات',d:'MicroStrategy, Tesla, Microsoft تحتفظ بـ BTC'},
+           {t:'الاحتياطي الوطني',d:'دول عديدة تعتمد BTC كاحتياطي وطني'},
+           {t:'شبكة Lightning',d:'تحسينات كبيرة في السرعة والرسوم'}].map(x=>`
+          <div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+            <span style="color:var(--green);">✅</span>
+            <div><b style="font-size:13px;">${x.t}</b><p style="font-size:12px;color:var(--muted);margin-top:2px;">${x.d}</p></div>
+          </div>`).join('')}
+      </div>
+      <div class="sc"><div class="st"><span>⚠️</span>المخاطر والتحديات</div>
+        ${[{t:'التنظيم الحكومي',d:'تشريعات مشددة محتملة في بعض الدول'},
+           {t:'التقلب العالي',d:'تذبذب 40-80% سنوياً — مخاطرة كبيرة'},
+           {t:'المنافسة',d:'آلاف العملات الأخرى تتنافس على الحصة'},
+           {t:'الأمن والقرصنة',d:'مخاطر أمنية للمحافظ والبورصات'},
+           {t:'التأثير البيئي',d:'استهلاك كهرباء مرتفع — ضغوط بيئية'}].map(x=>`
+          <div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+            <span style="color:var(--red);">⚠️</span>
+            <div><b style="font-size:13px;">${x.t}</b><p style="font-size:12px;color:var(--muted);margin-top:2px;">${x.d}</p></div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+// ── EXPERTS ──
+function renderExperts(){
+  const exps=[
+    {n:'Michael Saylor',t:'مؤسس MicroStrategy',p:'👔',sig:'شراء قوي',q:'البيتكوين هو أفضل تقنية لتخزين القيمة في تاريخ البشرية. الشركات التي لا تستثمر فيه الآن ستندم.',tgt:'$500,000',tf:'2026'},
+    {n:'Cathie Wood',t:'مؤسسة ARK Invest',p:'👩‍💼',sig:'شراء',q:'نموذجنا يتوقع BTC بين مليون ومليون ونصف دولار بحلول 2030. العوامل المؤسسية تقود الموجة.',tgt:'$1,000,000',tf:'2030'},
+    {n:'PlanB',t:'مبتكر نموذج S2F',p:'🧑‍💻',sig:'شراء',q:'نموذج Stock-to-Flow يؤكد BTC فوق $100,000. الحدث التنصيف يؤكد النموذج تاريخياً.',tgt:'$150,000',tf:'2025'},
+    {n:'Raoul Pal',t:'المدير التنفيذي Real Vision',p:'📊',sig:'شراء قوي',q:'نحن في أكبر فرصة استثمارية في التاريخ. الأصول الرقمية ستعيد رسم النظام المالي بالكامل.',tgt:'$200,000',tf:'2025'},
+    {n:'Willy Woo',t:'محلل On-Chain',p:'🔬',sig:'شراء قوي',q:'بيانات السلسلة تُظهر أكبر موجة تراكم مؤسسي في تاريخ BTC. عناوين الحيتان تتضاعف.',tgt:'$120,000',tf:'2025'},
+    {n:'Andreas Antonopoulos',t:'خبير Bitcoin ومؤلف',p:'📚',sig:'شراء',q:'Bitcoin ليست فقط استثماراً، إنها ثورة كاملة في كيفية إدارة البشرية للمال والثروة.',tgt:'طويل المدى',tf:'5-10 سنوات'},
+  ];
+  document.getElementById('exp-content').innerHTML=exps.map(e=>`<div class="sc" style="border-color:rgba(0,212,255,0.15);">
+    <div style="display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;">
+      <div style="width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,rgba(0,212,255,0.18),rgba(168,85,247,0.18));border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;">${e.p}</div>
+      <div style="flex:1;">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px;">
+          <b style="font-size:16px;">${e.n}</b>
+          <span class="badge bc">${e.t}</span>
+          <span class="sig-b">${e.sig}</span>
+        </div>
+        <blockquote style="font-size:14px;color:var(--text);line-height:1.9;border-right:3px solid var(--cyan);padding-right:14px;margin:0 0 12px;">"${e.q}"</blockquote>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);">
+          <span>🎯 الهدف: <b style="color:var(--gold);">${e.tgt}</b></span>
+          <span>📅 الإطار: <b style="color:var(--cyan);">${e.tf}</b></span>
+        </div>
+      </div>
+    </div>
+  </div>`).join('');
+}
+
+// ── STRATEGIES ──
+function renderStrats(){
+  const strats=[
+    {ic:'🐢',n:'DCA — المتوسط التكلفة الدورية',lv:'مبتدئ',rk:'منخفض',rt:'متوسط',d:'استثمر مبلغاً ثابتاً أسبوعياً بغض النظر عن السعر. تقلل المخاطر وتتغلب على التقلبات.',steps:['حدد مبلغاً شهرياً ثابتاً','قسّمه على أسابيع','اشتر تلقائياً كل أسبوع','استمر لمدة 1-3 سنوات','لا تنظر للسعر اليومي']},
+    {ic:'🌊',n:'Swing Trading — التداول المتأرجح',lv:'متوسط',rk:'متوسط',rt:'مرتفع',d:'الاستفادة من تذبذبات السعر على المدى القصير (أيام إلى أسابيع).',steps:['حدد عملة ذات تقلب مناسب','انتظر تصحيح 15-25%','ادخل عند مستوى دعم قوي','ضع وقف خسارة 8%','اجنِ الأرباح عند المقاومة']},
+    {ic:'💎',n:'HODL — الاحتفاظ طويل المدى',lv:'مبتدئ',rk:'متوسط',rt:'مرتفع جداً',d:'شراء العملات الرائدة والاحتفاظ بها لسنوات. الأبسط والأكثر نجاحاً تاريخياً.',steps:['اشتر BTC و ETH فقط','استخدم محفظة باردة آمنة','لا تبيع عند الهبوط','احتفظ 3-5 سنوات','أضف دورياً عند الانخفاض']},
+    {ic:'⚡',n:'Scalping — التداول السريع',lv:'خبير',rk:'مرتفع جداً',rt:'مرتفع جداً',d:'صفقات متعددة يومياً بأرباح صغيرة تتراكم. يتطلب خبرة وانضباطاً صارماً.',steps:['استخدم رسم 5/15 دقيقة','حدد الاتجاه الرئيسي','ادخل مع الاتجاه فقط','هدف 0.5-2% لكل صفقة','وقف خسارة 0.5% صارم']},
+    {ic:'🎯',n:'الاستثمار الموضوعاتي',lv:'متوسط',rk:'متوسط',rt:'مرتفع',d:'الاستثمار في قطاعات: DeFi، NFT، Web3، Layer 2. التركيز على أساسيات قوية.',steps:['حدد القطاع الأكثر نمواً','ابحث عن أفضل 3 مشاريع','تحقق من الفريق والمجتمع','خصص 5-10% من المحفظة','راجع كل 3 أشهر']},
+    {ic:'🔄',n:'Arbitrage — المراجحة',lv:'خبير',rk:'منخفض',rt:'منخفض-متوسط',d:'الاستفادة من فروق الأسعار بين البورصات. يتطلب سرعة تنفيذ وأدوات متخصصة.',steps:['تابع الفروق بين البورصات','فرق 0.5%+ يكون مربحاً','نفّذ الشراء والبيع سريعاً','احسب رسوم المنصات أولاً','استخدم بوتات أوتوماتيكية']},
+  ];
+  document.getElementById('strat-content').innerHTML=strats.map(s=>`<div class="sc">
+    <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap;">
+      <div style="font-size:34px;">${s.ic}</div>
+      <div><div style="font-size:17px;font-weight:900;">${s.n}</div>
+        <div style="display:flex;gap:7px;margin-top:6px;flex-wrap:wrap;">
+          <span class="badge bc">مستوى: ${s.lv}</span>
+          <span class="badge ${s.rk.includes('منخفض')?'bg':s.rk.includes('متوسط')?'bo':'br'}">مخاطرة: ${s.rk}</span>
+          <span class="badge bp">عائد: ${s.rt}</span>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:14px;">${s.d}</p>
+    <div style="background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.1);border-radius:11px;padding:14px;">
+      <div style="font-size:12px;color:var(--cyan);margin-bottom:9px;font-weight:700;">📋 خطوات التطبيق:</div>
+      ${s.steps.map((st,i)=>`<div style="display:flex;gap:9px;padding:5px 0;"><span style="color:var(--cyan);font-weight:800;min-width:18px;">${i+1}.</span><span style="font-size:13px;">${st}</span></div>`).join('')}
+    </div>
+  </div>`).join('');
+}
+
+// ── RISK ──
+function renderRisk(){
+  document.getElementById('risk-content').innerHTML=`
+    <div style="background:linear-gradient(135deg,rgba(255,51,85,0.1),rgba(255,201,60,0.04));border:1px solid rgba(255,51,85,0.2);border-radius:14px;padding:20px;margin-bottom:16px;">
+      <div style="font-size:18px;font-weight:900;color:var(--red);margin-bottom:8px;">⚠️ تحذير مهم جداً</div>
+      <p style="font-size:14px;line-height:1.9;">تداول العملات الرقمية ينطوي على مخاطر عالية جداً. يمكن أن تخسر كامل رأس مالك. لا تستثمر أموالاً لا تستطيع تحمل خسارتها. هذا التطبيق للأغراض التعليمية فقط وليس نصيحة مالية.</p>
+    </div>
+    <div class="g2">
+      <div class="sc"><div class="st"><span>🛡️</span>قواعد إدارة المخاطر الذهبية</div>
+        ${[{r:'قاعدة 1-2%',d:'لا تخاطر بأكثر من 2% من رأس مالك في صفقة واحدة'},
+           {r:'وقف الخسارة دائماً',d:'ضع Stop Loss في كل صفقة بدون استثناء أبداً'},
+           {r:'نسبة R/R أكثر من 1:2',d:'لا تدخل صفقة إلا إذا كان الربح المتوقع ضعف الخسارة'},
+           {r:'لا تضاعف الخسائر',d:'لا تضيف لصفقة خاسرة بدون خطة واضحة'},
+           {r:'10% كحد أقصى',d:'لا تضع أكثر من 10% من محفظتك في عملة واحدة'},
+           {r:'احتفظ بسيولة 20%',d:'دائماً احتفظ بـ 20% نقداً لاغتنام الفرص المفاجئة'}].map(x=>`
+          <div style="display:flex;gap:10px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+            <span style="color:var(--green);">✅</span>
+            <div><b style="color:var(--cyan);font-size:13px;">${x.r}</b><p style="font-size:12px;color:var(--muted);margin-top:2px;">${x.d}</p></div>
+          </div>`).join('')}
+      </div>
+      <div class="sc"><div class="st"><span>🧮</span>حاسبة حجم الصفقة الآمن</div>
+        <div class="fg"><label>رأس المال الكلي ($)</label><input type="number" id="rm-c" placeholder="10000" oninput="calcRM()"/></div>
+        <div class="fg"><label>نسبة المخاطرة (%)</label><input type="number" id="rm-r" placeholder="1" value="1" oninput="calcRM()"/></div>
+        <div class="fg"><label>سعر الدخول ($)</label><input type="number" id="rm-e" placeholder="67000" oninput="calcRM()"/></div>
+        <div class="fg"><label>سعر وقف الخسارة ($)</label><input type="number" id="rm-sl" placeholder="64000" oninput="calcRM()"/></div>
+        <div id="rm-result" style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:11px;padding:15px;margin-top:4px;">
+          <div style="color:var(--muted);text-align:center;font-size:13px;">أدخل الأرقام لرؤية النتيجة</div>
+        </div>
+      </div>
+    </div>`;
+}
+function calcRM(){
+  const cap=parseFloat(document.getElementById('rm-c').value);const risk=parseFloat(document.getElementById('rm-r').value)/100;
+  const entry=parseFloat(document.getElementById('rm-e').value);const sl=parseFloat(document.getElementById('rm-sl').value);
+  const el=document.getElementById('rm-result');
+  if(!cap||!risk||!entry||!sl){el.innerHTML='<div style="color:var(--muted);text-align:center;font-size:13px;">أدخل الأرقام</div>';return;}
+  const riskAmt=cap*risk;const slDiff=Math.abs(entry-sl);const pos=riskAmt/slDiff;const posVal=pos*entry;
+  el.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:center;">
+    <div style="background:rgba(255,51,85,0.08);padding:11px;border-radius:9px;"><div style="font-size:11px;color:var(--muted);">المبلغ المعرض للخطر</div><div style="font-size:18px;font-weight:900;color:var(--red);">${usd(riskAmt)}</div></div>
+    <div style="background:rgba(0,255,136,0.08);padding:11px;border-radius:9px;"><div style="font-size:11px;color:var(--muted);">حجم الصفقة المقترح</div><div style="font-size:18px;font-weight:900;color:var(--green);">${fmt(pos,4)} عملة</div></div>
+    <div style="background:rgba(0,212,255,0.08);padding:11px;border-radius:9px;grid-column:span 2;"><div style="font-size:11px;color:var(--muted);">القيمة الإجمالية للصفقة</div><div style="font-size:18px;font-weight:900;color:var(--cyan);">${usd(posVal)}</div></div>
+  </div>`;
+}
+
+// ── ACADEMY ──
+function renderAcad(){
+  const lessons=[
+    {ic:'📖',t:'ما هي العملات الرقمية؟',lv:'مبتدئ',d:'تعرف على أساسيات البلوكتشين، Bitcoin، Ethereum، والعملات الرقمية المختلفة وكيف تعمل.',pts:['تاريخ Bitcoin منذ 2009','كيف يعمل البلوكتشين','أنواع العملات الرقمية','المحافظ الرقمية وكيفية حفظها']},
+    {ic:'📊',t:'قراءة الرسوم البيانية',lv:'مبتدئ',d:'تعلم قراءة الشموع اليابانية، الأطر الزمنية، ومستويات الدعم والمقاومة.',pts:['الشموع اليابانية الأساسية','أنماط الانعكاس والاستمرار','مستويات الدعم والمقاومة','خطوط الاتجاه Trendlines']},
+    {ic:'📈',t:'المؤشرات الفنية الأساسية',lv:'متوسط',d:'تعلم RSI، MACD، Bollinger Bands، والمتوسطات المتحركة.',pts:['RSI وتفسير التشبع','MACD وإشارات التقاطع','Bollinger Bands والتقلب','المتوسطات المتحركة 50/200']},
+    {ic:'💰',t:'إدارة رأس المال',lv:'متوسط',d:'أهم علم في التداول — كيف تحمي أموالك وتحقق أرباحاً مستدامة.',pts:['قاعدة 1-2% للمخاطرة','حساب حجم الصفقة','نسبة المخاطرة/المكافأة','التنويع والحماية']},
+    {ic:'🧠',t:'علم النفس في التداول',lv:'متقدم',d:'الجانب الأهم الذي يفصل المتداولين الناجحين عن الخاسرين.',pts:['التغلب على الخوف والجشع','الانضباط والالتزام بالخطة','التعامل مع الخسائر','بناء عقلية المتداول']},
+    {ic:'🤖',t:'التداول الآلي والبوتات',lv:'خبير',d:'كيف تستخدم الأتمتة لتنفيذ استراتيجياتك 24/7 بدون مشاعر.',pts:['أنواع بوتات التداول','استراتيجية Grid Trading','Backtesting واختبار الاستراتيجيات','مخاطر التداول الآلي']},
+  ];
+  document.getElementById('acad-content').innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+    ${lessons.map(l=>`<div class="sc">
+      <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;">
+        <div style="font-size:30px;">${l.ic}</div>
+        <div><div style="font-size:15px;font-weight:800;">${l.t}</div>
+          <span class="badge ${l.lv==='مبتدئ'?'bg':l.lv==='متوسط'?'bo':l.lv==='متقدم'?'br':'bp'}" style="margin-top:5px;">${l.lv}</span>
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:12px;">${l.d}</p>
+      <div style="font-size:12px;color:var(--cyan);font-weight:700;margin-bottom:7px;">📚 ما ستتعلمه:</div>
+      ${l.pts.map(p=>`<div style="display:flex;gap:8px;padding:4px 0;font-size:12px;color:var(--text);"><span style="color:var(--green);">▸</span>${p}</div>`).join('')}
+    </div>`).join('')}
+  </div>`;
+}
+
+// ── NEWS ──
+function renderNews(){
+  const news=[
+    {ic:'🚀',t:'Bitcoin يتجاوز $68,000 في ذروة جديدة لعام 2026',d:'ارتفع Bitcoin إلى أعلى مستوياته منذ أشهر مدفوعاً بتدفقات قياسية لصناديق ETF الفورية وتوقعات خفض الفائدة.',time:'منذ 2 ساعة',cat:'BTC',s:'up'},
+    {ic:'🏛️',t:'SEC الأمريكية تعتمد ETF على Ethereum بإجماع',d:'وافقت هيئة الأوراق المالية الأمريكية بإجماع على صندوق ETF آخر لـ Ethereum، مما أدى لارتفاع سعره 8% خلال ساعات.',time:'منذ 4 ساعات',cat:'ETH',s:'up'},
+    {ic:'⚡',t:'Solana تسجل 65,000 معاملة في الثانية — رقم قياسي جديد',d:'سجلت شبكة Solana رقماً قياسياً جديداً في معالجة المعاملات، مما يعزز مكانتها كأسرع بلوكتشين Layer-1.',time:'منذ 6 ساعات',cat:'SOL',s:'up'},
+    {ic:'🏦',t:'BlackRock تضيف $2 مليار لمحفظة Bitcoin',d:'أضافت شركة BlackRock، أكبر مدير أصول في العالم، ما يعادل مليارَي دولار إلى صندوق iShares Bitcoin ETF.',time:'منذ 8 ساعات',cat:'BTC',s:'up'},
+    {ic:'⚠️',t:'Binance تواجه تحقيقاً جديداً في دول آسيوية',d:'كشفت تقارير عن تحقيقات جديدة مع Binance في عدة دول آسيوية بشأن الامتثال التنظيمي، مما أثر على BNB.',time:'منذ 10 ساعات',cat:'BNB',s:'dn'},
+    {ic:'🌐',t:'الإمارات تعلن استراتيجية وطنية للعملات الرقمية 2026',d:'أعلنت دولة الإمارات عن استراتيجية وطنية شاملة لتنظيم وتطوير قطاع العملات الرقمية، مما يعزز مكانة دبي كمركز مالي رقمي عالمي.',time:'منذ 12 ساعة',cat:'عام',s:'up'},
+  ];
+  document.getElementById('news-content').innerHTML=news.map(n=>`<div class="sc" style="border-color:${n.s==='up'?'rgba(0,255,136,0.12)':'rgba(255,51,85,0.12)'};">
+    <div style="display:flex;gap:14px;align-items:flex-start;">
+      <div style="font-size:28px;flex-shrink:0;">${n.ic}</div>
+      <div style="flex:1;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;gap:8px;flex-wrap:wrap;">
+          <b style="font-size:15px;line-height:1.4;">${n.t}</b>
+          <div style="display:flex;gap:6px;flex-shrink:0;">
+            <span class="badge ${n.s==='up'?'bg':'br'}">${n.cat}</span>
+            <span style="font-size:11px;color:var(--muted);">${n.time}</span>
+          </div>
+        </div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.7;">${n.d}</p>
+      </div>
+    </div>
+  </div>`).join('');
+}
+
+// ── INIT ──
+function initAll(){buildTicker();renderDashboard();document.getElementById('market-time').textContent=new Date().toLocaleTimeString('ar-SA');}
+function refreshAll(){initAll();notify('✅ تم التحديث!');}
+initAll();
+setInterval(()=>{if(document.getElementById('page-market').classList.contains('active'))renderMarket();},30000);
+</script>
+</body>
+</html>
